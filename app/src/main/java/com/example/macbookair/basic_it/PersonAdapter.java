@@ -1,12 +1,14 @@
 package com.example.macbookair.basic_it;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -45,17 +47,20 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonView
     }
 
 
-    class PersonViewHolder extends RecyclerView.ViewHolder {
+    class PersonViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private ImageView imageView;
         private TextView nameText;
         private TextView surnameText;
+        private RelativeLayout mainLayout;
 
         public PersonViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView);
             nameText = itemView.findViewById(R.id.name_text);
             surnameText = itemView.findViewById(R.id.surname_text);
+            mainLayout = itemView.findViewById(R.id.item_main_layout);
+            mainLayout.setOnClickListener(this);
         }
 
         public void changeImage(boolean gender) {
@@ -66,5 +71,15 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonView
             else
                 imageView.setImageBitmap(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.male));
         }
+
+
+        @Override
+        public void onClick(View v) {
+            Intent i = new Intent(mContext, InformationActivity.class);
+            i.putExtra("Name", nameText.getText().toString());
+            i.putExtra("Surname", surnameText.getText().toString());
+            mContext.startActivity(i);
+        }
     }
 }
+
